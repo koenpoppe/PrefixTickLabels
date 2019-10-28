@@ -21,9 +21,11 @@ PrefixTickLabels::PrefixTickLabels(const double min, const double max, const uns
 
     m_prefix_10 = scale_10 + s_group_10;
     const double prefix_power = pow(10, m_prefix_10);
-    m_prefixValue = floor(mid / prefix_power) * prefix_power;
+    m_prefixValue = std::min(floor(mid / prefix_power), ceil(min / prefix_power)) * prefix_power;
 
-    double spacing = niceNum(range / targetNbTicks);
+    const double spacing = niceNum(range / targetNbTicks);
+    const int labelFraction_10 = std::max(0, scale_10 - static_cast<int>(floor(log10(spacing))));
+
     const double niceMin = ceil(min / spacing) * spacing;
     const int nbTicks = static_cast<int>(floor((max - niceMin) / spacing));
 
@@ -32,7 +34,7 @@ PrefixTickLabels::PrefixTickLabels(const double min, const double max, const uns
     for (int j = 0; j <= nbTicks; j++)
     {
         const double tick = niceMin + j * spacing;
-        const auto tickLabel = QString("%1%2").arg(static_cast<int>(round((tick - m_prefixValue) * inv_scale))).arg(tick != 0.0 ? siPrefix : "");
+        const auto tickLabel = QString("%1%2").arg((tick - m_prefixValue) * inv_scale, 0, 'f', labelFraction_10).arg(tick != 0.0 ? siPrefix : "");
         m_ticksAndLabels.push_back({ tick, tickLabel });
     }
 }

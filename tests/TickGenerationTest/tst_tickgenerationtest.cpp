@@ -8,9 +8,12 @@ class TickGenerationTest : public QObject
 private slots:
     void prototype_data();
     void prototype();
+
+    void specialCases_leftMostPrefix();
+    void specialCases_repeatLabels();
 };
 
-    using TicksWithLabel = PrefixTickLabels::TicksAndLabel;
+using TicksWithLabel = PrefixTickLabels::TicksAndLabel;
 void TickGenerationTest::prototype_data()
 {
     QTest::addColumn<double>("min");
@@ -202,7 +205,7 @@ void TickGenerationTest::prototype()
     const QFETCH(TicksWithLabel, ticksWithLabel);
 
     const int nbTicks = 9;
-    PrefixTickLabels ptl(min, max, nbTicks);
+    const PrefixTickLabels ptl(min, max, nbTicks);
 
     QCOMPARE(ptl.hasPrefix(), prefix != 0.0);
     QCOMPARE(ptl.prefixValue(), prefix);
@@ -214,6 +217,42 @@ void TickGenerationTest::prototype()
     {
         QCOMPARE(ticks.at(i).first, ticksWithLabel.at(i).first);
         QCOMPARE(ticks.at(i).second, ticksWithLabel.at(i).second);
+    }
+}
+
+void TickGenerationTest::specialCases_leftMostPrefix()
+{
+    const PrefixTickLabels ptl(0.0015, 0.0055, 9);
+    QVERIFY(ptl.hasPrefix());
+    QCOMPARE(ptl.prefixValue(), 0.002);
+    QCOMPARE(ptl.prefixLabel("yyy"), QString("0.002yyy"));
+}
+
+void TickGenerationTest::specialCases_repeatLabels()
+{
+    {
+        const PrefixTickLabels ptl(5.0, 10.0, 6);
+        const auto ticks = ptl.ticksAndLabel();
+        QCOMPARE(ticks.at(0).first, 5.0);
+        QCOMPARE(ticks.at(0).second, "5");
+        QCOMPARE(ticks.at(1).first, 6.0);
+        QCOMPARE(ticks.at(1).second, "6");
+        QCOMPARE(ticks.at(2).first, 7.0);
+        QCOMPARE(ticks.at(2).second, "7");
+        QCOMPARE(ticks.at(3).first, 8.0);
+        QCOMPARE(ticks.at(3).second, "8");
+    }
+    {
+        const PrefixTickLabels ptl(5.0, 10.0, 11);
+        const auto ticks = ptl.ticksAndLabel();
+        QCOMPARE(ticks.at(0).first, 5.0);
+        QCOMPARE(ticks.at(0).second, "5.0");
+        QCOMPARE(ticks.at(1).first, 5.5);
+        QCOMPARE(ticks.at(1).second, "5.5");
+        QCOMPARE(ticks.at(2).first, 6.0);
+        QCOMPARE(ticks.at(2).second, "6.0");
+        QCOMPARE(ticks.at(3).first, 6.5);
+        QCOMPARE(ticks.at(3).second, "6.5");
     }
 }
 
