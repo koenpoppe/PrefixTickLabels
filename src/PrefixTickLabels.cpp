@@ -32,7 +32,7 @@ PrefixTickLabels::PrefixTickLabels(const double min, const double max, const uns
     for (int j = 0; j <= nbTicks; j++)
     {
         const double tick = niceMin + j * spacing;
-        const auto tickLabel = QString("%1%2").arg(static_cast<int>(round((tick - m_prefixValue) * inv_scale))).arg(siPrefix);
+        const auto tickLabel = QString("%1%2").arg(static_cast<int>(round((tick - m_prefixValue) * inv_scale))).arg(tick != 0.0 ? siPrefix : "");
         m_ticksAndLabels.push_back({ tick, tickLabel });
     }
 }
