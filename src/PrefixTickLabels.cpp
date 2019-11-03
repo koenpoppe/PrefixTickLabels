@@ -21,7 +21,26 @@ PrefixTickLabels::PrefixTickLabels(const double min, const double max, const uns
 
     m_prefix_10 = scale_10 + s_group_10;
     const double prefix_power = pow(10, m_prefix_10);
-    m_prefixValue = std::min(floor(mid / prefix_power), ceil(min / prefix_power)) * prefix_power;
+
+    // Prefer the left most prefix in range
+    std::vector<double> prefixCandidates {
+        ceil(min / prefix_power) * prefix_power,
+        floor(mid / prefix_power) * prefix_power,
+        floor(max / prefix_power) * prefix_power,
+    };
+    std::sort(prefixCandidates.begin(), prefixCandidates.end());
+    const auto prefixCandidate = std::find_if(prefixCandidates.begin(), prefixCandidates.end(), [min, max](const double candidate) {
+        return min <= candidate && candidate <= max;
+    });
+    if (prefixCandidate != prefixCandidates.end())
+    {
+        m_prefixValue = *prefixCandidate;
+    }
+    else
+    {
+        // .. if none found, take the left most
+        m_prefixValue = prefixCandidates.front();
+    }
 
     const double spacing = niceNum(range / targetNbTicks);
     const int labelFraction_10 = std::max(0, scale_10 - static_cast<int>(floor(log10(spacing))));

@@ -10,6 +10,7 @@ private slots:
     void prototype();
 
     void specialCases_leftMostPrefix();
+    void specialCases_preferPositionedPrefix();
     void specialCases_repeatLabels();
 };
 
@@ -112,12 +113,12 @@ void TickGenerationTest::prototype_data()
                               { 3.146e+03, "146" },
                               });
     QTest::newRow("100m") << 3.141092653589793e+03 << 3.142092653589793e+03
-                          << 3.141e+03 << "3141.xxx" << TicksWithLabel({
-                                 { 3.1412e+03, "200m" },
-                                 { 3.1414e+03, "400m" },
-                                 { 3.1416e+03, "600m" },
-                                 { 3.1418e+03, "800m" },
-                                 { 3.1420e+03, "1000m" },
+                          << 3.142e+03 << "3142.xxx" << TicksWithLabel({
+                                 { 3.1412e+03, "-800m" },
+                                 { 3.1414e+03, "-600m" },
+                                 { 3.1416e+03, "-400m" },
+                                 { 3.1418e+03, "-200m" },
+                                 { 3.1420e+03, "0m" },
                                  });
     QTest::newRow("10m") << 3.141540022010845e+03 << 3.14164528516874e+03
                          << 3.141e+03 << "3141.xxx" << TicksWithLabel({
@@ -137,13 +138,13 @@ void TickGenerationTest::prototype_data()
                                { 3.141598e+03, "598m" },
                                });
     QTest::newRow("100µ") << 3.141592070414403e+03 << 3.141593236765183e+03
-                          << 3.141592e+03 << "3141.592xxx" << TicksWithLabel({
-                                 { 3.1415922e+03, "200µ" },
-                                 { 3.1415924e+03, "400µ" },
-                                 { 3.1415926e+03, "600µ" },
-                                 { 3.1415928e+03, "800µ" },
-                                 { 3.141593e+03, "1000µ" },
-                                 { 3.1415932e+03, "1200µ" },
+                          << 3.141593e+03 << "3141.593xxx" << TicksWithLabel({
+                                 { 3.1415922e+03, "-800µ" },
+                                 { 3.1415924e+03, "-600µ" },
+                                 { 3.1415926e+03, "-400µ" },
+                                 { 3.1415928e+03, "-200µ" },
+                                 { 3.141593e+03, "0µ" },
+                                 { 3.1415932e+03, "200µ" },
                                  });
     QTest::newRow("10µ") << 3.14159259220291e+03 << 3.141592714976676e+03
                          << 3.141592e+03 <<  "3141.592xxx" << TicksWithLabel({
@@ -226,6 +227,13 @@ void TickGenerationTest::specialCases_leftMostPrefix()
     QVERIFY(ptl.hasPrefix());
     QCOMPARE(ptl.prefixValue(), 0.002);
     QCOMPARE(ptl.prefixLabel("yyy"), QString("0.002yyy"));
+}
+
+void TickGenerationTest::specialCases_preferPositionedPrefix()
+{
+    const PrefixTickLabels ptl(5000.11 , 5001.11, 5);
+    QVERIFY(ptl.hasPrefix());
+    QCOMPARE(ptl.prefixValue(), 5001); // prefer visible one
 }
 
 void TickGenerationTest::specialCases_repeatLabels()
