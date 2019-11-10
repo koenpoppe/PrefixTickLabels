@@ -53,7 +53,7 @@ PrefixTickLabels::PrefixTickLabels(const double min, const double max, const uns
     for (int j = 0; j <= nbTicks; j++)
     {
         const double tick = niceMin + j * spacing;
-        const auto tickLabel = QString("%1%2").arg((tick - m_prefixValue) * inv_scale, 0, 'f', labelFraction_10).arg(tick != 0.0 ? siPrefix : "");
+        const auto tickLabel = QString(QLatin1String("%1%2")).arg((tick - m_prefixValue) * inv_scale, 0, 'f', labelFraction_10).arg(tick != 0.0 ? siPrefix : QString());
         m_ticksAndLabels.push_back({ tick, tickLabel });
     }
 }
@@ -86,10 +86,10 @@ QString PrefixTickLabels::prefixLabel(const QString &placeholder) const
     if (m_prefix_10 == 0)
     {
         auto prefix = QString::number(static_cast<int>(floor(m_prefixValue)));
-        return prefix + '.' + placeholder;
+        return prefix + QLatin1Char('.') + placeholder;
     }
 
-    auto prefix = QString("%1").arg(m_prefixValue, 0, 'f', -m_prefix_10);
+    auto prefix = QString(QLatin1String("%1")).arg(m_prefixValue, 0, 'f', -m_prefix_10);
     return prefix + placeholder;
 }
 
