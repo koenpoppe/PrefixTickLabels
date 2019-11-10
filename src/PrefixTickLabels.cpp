@@ -7,11 +7,7 @@
 
 PrefixTickLabels::PrefixTickLabels(const double min, const double max, const unsigned targetNbTicks)
 {
-    if (min > max)
-    {
-        throw std::invalid_argument("range does not satisfy min <= max");
-    }
-    const double range = max - min;
+    const double range = std::abs(max - min);
     const double mid = (min + max)/2;
 
     const auto range_10 = static_cast<int>(floor(log10(range))) - (log10(range) <= 0.0 ? 1 : 0);
@@ -152,5 +148,5 @@ QString PrefixTickLabels::siPrefix(int power)
     case -21: return QStringLiteral("z"); // zepto
     case -24: return QStringLiteral("y"); // tocto
     }
-    throw std::invalid_argument("Invalid si prefix power");
+    return QLatin1String("?");
 }
