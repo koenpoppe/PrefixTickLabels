@@ -12,6 +12,7 @@ private slots:
     void specialCases_leftMostPrefix();
     void specialCases_preferPositionedPrefix();
     void specialCases_repeatLabels();
+    void specialCases_prefixMatchesTick();
 };
 
 using TicksWithLabel = PrefixTickLabels::TicksAndLabel;
@@ -262,6 +263,15 @@ void TickGenerationTest::specialCases_repeatLabels()
         QCOMPARE(ticks.at(3).first, 6.5);
         QCOMPARE(ticks.at(3).second, "6.5");
     }
+}
+
+void TickGenerationTest::specialCases_prefixMatchesTick()
+{
+    const PrefixTickLabels ptl(4999.28, 5000.28, 6);
+    QCOMPARE(ptl.prefixValue(), 5000.0);
+    const auto ticks = ptl.ticksAndLabel();
+    const auto tickAtPrefix = ticks.at(3);
+    QCOMPARE(tickAtPrefix.first, 5000.0);
 }
 
 QTEST_APPLESS_MAIN(TickGenerationTest)
