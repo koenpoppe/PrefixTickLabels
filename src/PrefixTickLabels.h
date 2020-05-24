@@ -13,7 +13,6 @@ public:
      * @param min, lower limit of the range
      * @param max, upper limit of the range
      * @param targetNbTicks,
-     * @throws std::invalid_argument, min > max
      */
     PrefixTickLabels(double min, double max, unsigned targetNbTicks);
 private:
@@ -56,7 +55,7 @@ public:
     static double niceNum(double value);
     /** Prefix for the given power of 10
      * @param power
-     * @throws std::invalid_argument, if there is no SI prefix for the given power
+     * @returns "?" if there is no relevant prefix
      */
     static QString siPrefix(int power);
 };

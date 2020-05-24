@@ -1,7 +1,6 @@
 #include "PrefixTickLabels.h"
 
 #include <cmath>
-#include <stdexcept>
 
 // Construction
 
