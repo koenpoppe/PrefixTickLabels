@@ -39,6 +39,16 @@ void PrefixTickLabelsModel::setTargetNbTicks(int targetNbTicks)
     updateTicks();
 }
 
+QString PrefixTickLabelsModel::unit() const
+{
+    return m_unit;
+}
+void PrefixTickLabelsModel::setUnit(const QString &unit)
+{
+    m_unit = unit;
+    emit unitChanged();
+}
+
 
 // Prefix
 
@@ -152,7 +162,7 @@ void PrefixTickLabelsModel::updateTicks()
         return;
     }
 
-    const PrefixTickLabels ptl(min(), max(), static_cast<unsigned>(targetNbTicks()));
+    const PrefixTickLabels ptl(min(), max(), static_cast<unsigned>(targetNbTicks()), unit());
     setHasPrefix(ptl.hasPrefix());
     setPrefix(ptl.prefixValue());
     setPrefixLabelLeading(ptl.prefixLabelLeading());

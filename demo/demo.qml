@@ -127,7 +127,7 @@ Window {
 
                                 TextMetrics {
                                     id: testLabel
-                                    text: "-xXXXm"
+                                    text: "-xXXXmNm"
                                 }
 
                                 PrefixTickLabelsModel {
@@ -136,6 +136,7 @@ Window {
                                     max: horizontalTickBar.maxValue
                                     targetNbTicks: horizontalTickBar.width / testLabel.width
                                     prefixPlaceholder: "xxx"
+                                    unit: "Nm"
                                 }
                             }
 
@@ -168,6 +169,8 @@ Window {
                             Label { text: prefixTickLabelsModel.max.toPrecision(4) }
                             Label { text: "Target # ticks" }
                             Label { text: prefixTickLabelsModel.targetNbTicks }
+                            Label { text: "Unit" }
+                            Label { text: prefixTickLabelsModel.unit }
                         }
                         Grid {
                             columns: 2

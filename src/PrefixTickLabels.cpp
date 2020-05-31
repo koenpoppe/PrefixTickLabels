@@ -4,7 +4,10 @@
 
 // Construction
 
-PrefixTickLabels::PrefixTickLabels(const double min, const double max, const unsigned targetNbTicks)
+const QString PrefixTickLabels::s_unitSpace(" "); // thin space
+
+PrefixTickLabels::PrefixTickLabels(const double min, const double max, const unsigned targetNbTicks, const QString &unit)
+    : m_unit(unit)
 {
     const double range = std::abs(max - min);
     const double mid = (min + max)/2;
@@ -48,7 +51,9 @@ PrefixTickLabels::PrefixTickLabels(const double min, const double max, const uns
     for (int j = 0; j <= nbTicks; j++)
     {
         const double tick = niceMin + j * spacing;
-        const auto tickLabel = QString(QLatin1String("%1%2")).arg((tick - m_prefixValue) * inv_scale, 0, 'f', labelFraction_10).arg(tick != 0.0 ? siPrefix : QString());
+        const auto tickLabel = QString(QLatin1String("%1%2%3%4"))
+                                   .arg((tick - m_prefixValue) * inv_scale, 0, 'f', labelFraction_10)
+                                   .arg(m_unit.isEmpty() ? QString() : s_unitSpace, tick != 0.0 ? siPrefix : QString(), m_unit);
         m_ticksAndLabels.push_back({ tick, tickLabel });
     }
 }
@@ -102,7 +107,7 @@ QString PrefixTickLabels::prefixLabelTrailing() const
         return {};
     }
 
-    return ""; // in preparation of unit support
+    return m_unit.isEmpty() ? "" : s_unitSpace + m_unit;
 }
 
 

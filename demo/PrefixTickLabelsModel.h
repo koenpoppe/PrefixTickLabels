@@ -17,6 +17,7 @@ public:
     Q_PROPERTY(double min READ min WRITE setMin NOTIFY minChanged)
     Q_PROPERTY(double max READ max WRITE setMax NOTIFY maxChanged)
     Q_PROPERTY(int targetNbTicks READ targetNbTicks WRITE setTargetNbTicks NOTIFY targetNbTicksChanged)
+    Q_PROPERTY(QString unit READ unit WRITE setUnit NOTIFY unitChanged)
 
     double min() const;
     void setMin(double min);
@@ -24,14 +25,18 @@ public:
     void setMax(double max);
     int targetNbTicks() const;
     void setTargetNbTicks(int targetNbTicks);
+    QString unit() const;
+    void setUnit(const QString &unit);
 signals:
     void minChanged();
     void maxChanged();
     void targetNbTicksChanged();
+    void unitChanged();
 private:
     double m_min = 0;
     double m_max = 1;
     int m_targetNbTicks = 10;
+    QString m_unit;
 
 
     // Prefix
