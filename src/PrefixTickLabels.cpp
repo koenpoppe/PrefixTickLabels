@@ -73,19 +73,36 @@ QString PrefixTickLabels::prefixLabel(const QString &placeholder) const
         return {};
     }
 
+    return prefixLabelLeading() + placeholder + prefixLabelTrailing();
+}
+
+QString PrefixTickLabels::prefixLabelLeading() const
+{
+    if (!hasPrefix())
+    {
+        return {};
+    }
+
     if (m_prefix_10 > 1)
     {
-        auto prefix = QString::number(static_cast<int>(floor(m_prefixValue/pow(10, s_group_10))));
-        return prefix + placeholder;
+        return QString::number(static_cast<int>(floor(m_prefixValue/pow(10, s_group_10))));
     }
     if (m_prefix_10 == 0)
     {
-        auto prefix = QString::number(static_cast<int>(floor(m_prefixValue)));
-        return prefix + QLatin1Char('.') + placeholder;
+        return QString::number(static_cast<int>(floor(m_prefixValue))) + QLatin1Char('.');
     }
 
-    auto prefix = QString(QLatin1String("%1")).arg(m_prefixValue, 0, 'f', -m_prefix_10);
-    return prefix + placeholder;
+    return QString(QLatin1String("%1")).arg(m_prefixValue, 0, 'f', -m_prefix_10);
+}
+
+QString PrefixTickLabels::prefixLabelTrailing() const
+{
+    if (!hasPrefix())
+    {
+        return {};
+    }
+
+    return ""; // in preparation of unit support
 }
 
 

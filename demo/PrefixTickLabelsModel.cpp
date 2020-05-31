@@ -50,9 +50,13 @@ double PrefixTickLabelsModel::prefix() const
 {
     return m_prefix;
 }
-QString PrefixTickLabelsModel::prefixLabel() const
+QString PrefixTickLabelsModel::prefixLabelLeading() const
 {
-    return m_prefixLabel;
+    return m_prefixLabelLeading;
+}
+QString PrefixTickLabelsModel::prefixLabelTrailing() const
+{
+    return m_prefixLabelTrailing;
 }
 
 QString PrefixTickLabelsModel::prefixPlaceholder() const
@@ -73,12 +77,21 @@ void PrefixTickLabelsModel::setPrefix(double prefix)
     m_prefix = prefix;
     emit prefixChanged();
 }
-void PrefixTickLabelsModel::setPrefixLabel(const QString &prefixLabel)
+
+void PrefixTickLabelsModel::setPrefixLabelLeading(const QString &prefixLabelLeading)
 {
-    if (m_prefixLabel != prefixLabel)
+    if (m_prefixLabelLeading != prefixLabelLeading)
     {
-        m_prefixLabel = prefixLabel;
-        emit prefixLabelChanged();
+        m_prefixLabelLeading = prefixLabelLeading;
+        emit prefixLabelLeadingChanged();
+    }
+}
+void PrefixTickLabelsModel::setPrefixLabelTrailing(const QString &prefixLabelTrailing)
+{
+    if (m_prefixLabelTrailing != prefixLabelTrailing)
+    {
+        m_prefixLabelTrailing = prefixLabelTrailing;
+        emit prefixLabelTrailingChanged();
     }
 }
 
@@ -142,7 +155,8 @@ void PrefixTickLabelsModel::updateTicks()
     const PrefixTickLabels ptl(min(), max(), static_cast<unsigned>(targetNbTicks()));
     setHasPrefix(ptl.hasPrefix());
     setPrefix(ptl.prefixValue());
-    setPrefixLabel(ptl.prefixLabel(prefixPlaceholder()).remove(prefixPlaceholder()));
+    setPrefixLabelLeading(ptl.prefixLabelLeading());
+    setPrefixLabelTrailing(ptl.prefixLabelTrailing());
     setTicksAndLabels(ptl.ticksAndLabel());
 }
 

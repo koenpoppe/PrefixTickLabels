@@ -16,7 +16,7 @@ public:
      */
     PrefixTickLabels(double min, double max, unsigned targetNbTicks);
 private:
-    const int s_group_10 = 3; // Scientific notation is multiple of 3
+    static const int s_group_10 = 3; // Scientific notation is multiple of 3
 
 
     // Prefix
@@ -33,6 +33,10 @@ public:
      * @param placeholder, character used to indicate place of the ticks values
      */
     QString prefixLabel(const QString &placeholder = QLatin1String("xxx")) const;
+    /// The part of the prefix label before the placeholder
+    QString prefixLabelLeading() const;
+    /// The part of the prefix label after the placeholder
+    QString prefixLabelTrailing() const;
 private:
     int m_prefix_10 = 0;
     double m_prefixValue = 0.0;

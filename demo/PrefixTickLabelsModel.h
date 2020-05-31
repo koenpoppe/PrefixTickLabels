@@ -38,27 +38,33 @@ private:
 public:
     Q_PROPERTY(bool hasPrefix READ hasPrefix NOTIFY hasPrefixChanged)
     Q_PROPERTY(double prefix READ prefix NOTIFY prefixChanged)
-    Q_PROPERTY(QString prefixLabel READ prefixLabel NOTIFY prefixLabelChanged)
+    Q_PROPERTY(QString prefixLabelLeading READ prefixLabelLeading NOTIFY prefixLabelLeadingChanged)
+    Q_PROPERTY(QString prefixLabelTrailing READ prefixLabelTrailing NOTIFY prefixLabelTrailingChanged)
     Q_PROPERTY(QString prefixPlaceholder READ prefixPlaceholder WRITE setPrefixPlaceHolder NOTIFY prefixPlaceholderChanged)
     bool hasPrefix() const;
     double prefix() const;
-    QString prefixLabel() const;
+    QString prefixLabelLeading() const;
+    QString prefixLabelTrailing() const;
     QString prefixPlaceholder() const;
     void setPrefixPlaceHolder(const QString &placeholder);
 signals:
     void hasPrefixChanged();
     void prefixChanged();
-    void prefixLabelChanged();
+    void prefixLabelLeadingChanged();
+    void prefixLabelTrailingChanged();
     void prefixPlaceholderChanged();
 protected:
     void setHasPrefix(bool hasPrefix);
     void setPrefix(double prefix);
-    void setPrefixLabel(const QString &prefixLabel);
+    void setPrefixLabelLeading(const QString &prefixLabelLeading);
+    void setPrefixLabelTrailing(const QString &prefixLabelTrailing);
 private:
     bool m_hasPrefix = false;
     double m_prefix = 0.0;
-    QString m_prefixLabel;
+    QString m_prefixLabelLeading;
+    QString m_prefixLabelTrailing;
     QString m_prefixPlaceholder;
+
 
     // Ticks
 public:

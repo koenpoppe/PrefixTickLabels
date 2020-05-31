@@ -13,6 +13,10 @@ private slots:
     void specialCases_preferPositionedPrefix();
     void specialCases_repeatLabels();
     void specialCases_prefixMatchesTick();
+
+    void prefixLabel1();
+    void prefixLabel2();
+    void prefixLabel3();
 };
 
 using TicksWithLabel = PrefixTickLabels::TicksAndLabel;
@@ -273,6 +277,64 @@ void TickGenerationTest::specialCases_prefixMatchesTick()
     const auto tickAtPrefix = ticks.at(3);
     QCOMPARE(tickAtPrefix.first, 5000.0);
 }
+
+void TickGenerationTest::prefixLabel1()
+{
+    const PrefixTickLabels ptl(5361, 5526, 8);
+    QVERIFY(ptl.hasPrefix());
+    QCOMPARE(ptl.prefixLabel("xxx"), QString("5xxx"));
+    QCOMPARE(ptl.prefixLabelLeading(), QString("5"));
+    QCOMPARE(ptl.prefixLabelTrailing(), QString(""));
+    const auto labels = ptl.ticksAndLabel();
+    QCOMPARE(labels.count(), 3);
+    QCOMPARE(labels.at(0).first, 5400.0);
+    QCOMPARE(labels.at(0).second, QString("400"));
+    QCOMPARE(labels.at(1).first, 5450.0);
+    QCOMPARE(labels.at(1).second, QString("450"));
+    QCOMPARE(labels.at(2).first, 5500.0);
+    QCOMPARE(labels.at(2).second, QString("500"));
+}
+
+void TickGenerationTest::prefixLabel2()
+{
+    const PrefixTickLabels ptl(9.997, 10.51, 5);
+    QVERIFY(ptl.hasPrefix());
+    QCOMPARE(ptl.prefixLabel("xxx"), QString("10.xxx"));
+    QCOMPARE(ptl.prefixLabelLeading(), QString("10."));
+    QCOMPARE(ptl.prefixLabelTrailing(), QString(""));
+    const auto labels = ptl.ticksAndLabel();
+    QCOMPARE(labels.count(), 3);
+    QCOMPARE(labels.at(0).first, 10);
+    QCOMPARE(labels.at(0).second, QString("0m"));
+    QCOMPARE(labels.at(1).first, 10.2);
+    QCOMPARE(labels.at(1).second, QString("200m"));
+    QCOMPARE(labels.at(2).first, 10.4);
+    QCOMPARE(labels.at(2).second, QString("400m"));
+}
+
+void TickGenerationTest::prefixLabel3()
+{
+    const PrefixTickLabels ptl(8610, 9198, 11);
+    QVERIFY(ptl.hasPrefix());
+    QCOMPARE(ptl.prefixLabel("xxx"), QString("9xxx"));
+    QCOMPARE(ptl.prefixLabelLeading(), QString("9"));
+    QCOMPARE(ptl.prefixLabelTrailing(), QString(""));
+    const auto labels = ptl.ticksAndLabel();
+    QCOMPARE(labels.count(), 5);
+    QCOMPARE(labels.at(0).first, 8700.0);
+    QCOMPARE(labels.at(0).second, QString("-300"));
+    QCOMPARE(labels.at(1).first, 8800.0);
+    QCOMPARE(labels.at(1).second, QString("-200"));
+    QCOMPARE(labels.at(2).first, 8900.0);
+    QCOMPARE(labels.at(2).second, QString("-100"));
+    QCOMPARE(labels.at(3).first, 9000.0);
+    QCOMPARE(labels.at(3).second, QString("0"));
+    QCOMPARE(labels.at(4).first, 9100.0);
+    QCOMPARE(labels.at(4).second, QString("100"));
+}
+
+
+
 
 QTEST_APPLESS_MAIN(TickGenerationTest)
 

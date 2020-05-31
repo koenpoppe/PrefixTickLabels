@@ -91,12 +91,16 @@ Window {
                                     visible: prefixTickLabelsModel.hasPrefix
                                     Label {
                                         id: prefix
-                                        text: prefixTickLabelsModel.prefixLabel
+                                        text: prefixTickLabelsModel.prefixLabelLeading
                                         color: horizontalTickBar.tickColor
                                     }
                                     Label {
                                         text: prefixTickLabelsModel.prefixPlaceholder
                                         color: horizontalTickBar.prefixColor
+                                    }
+                                    Label {
+                                        text: prefixTickLabelsModel.prefixLabelTrailing
+                                        color: horizontalTickBar.tickColor
                                     }
                                 }
 
@@ -170,10 +174,12 @@ Window {
                             columnSpacing: 10
                             Label { text: "Prefix" }
                             Label { text: prefixTickLabelsModel.hasPrefix ? prefixTickLabelsModel.prefix.toPrecision(4) : "-" }
-                            Label { text: "Prefix label" }
-                            Label { text: prefixTickLabelsModel.hasPrefix ? prefixTickLabelsModel.prefixLabel : "-" }
+                            Label { text: "Prefix label leading" }
+                            Label { text: prefixTickLabelsModel.hasPrefix ? prefixTickLabelsModel.prefixLabelLeading : "-" }
                             Label { text: "Prefix placeholder" }
                             Label { text: prefixTickLabelsModel.prefixPlaceholder }
+                            Label { text: "Prefix label trailing" }
+                            Label { text: prefixTickLabelsModel.hasPrefix ? prefixTickLabelsModel.prefixLabelTrailing : "-" }
                         }
                     }
                 }
