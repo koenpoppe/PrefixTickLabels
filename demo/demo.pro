@@ -1,5 +1,5 @@
 QT += quick
-CONFIG += c++11
+CONFIG += c++11 warn_on
 SOURCES += demo.cpp
 SOURCES += PrefixTickLabelsModel.cpp
 RESOURCES += demo.qrc

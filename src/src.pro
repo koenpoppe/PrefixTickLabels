@@ -1,6 +1,5 @@
 TEMPLATE = lib
-CONFIG += c++11
-
+CONFIG += c++11 warn_on
 
 TARGET=PrefixTickLabels
 
