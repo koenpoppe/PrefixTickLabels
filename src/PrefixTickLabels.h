@@ -18,7 +18,6 @@ public:
     PrefixTickLabels(double min, double max, unsigned targetNbTicks, const QString &unit = {});
 private:
     const QString m_unit;
-    static const QString s_unitSpace;
     static const int s_group_10 = 3; // Scientific notation is multiple of 3
 
 
