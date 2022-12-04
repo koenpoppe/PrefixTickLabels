@@ -34,7 +34,7 @@ public:
      * @pre hasPrefix()
      * @param placeholder, character used to indicate place of the ticks values
      */
-    QString prefixLabel(const QString &placeholder = QLatin1String("xxx")) const;
+    QString prefixLabel(const QString& placeholder = QStringLiteral("xxx")) const;
     /// The part of the prefix label before the placeholder
     QString prefixLabelLeading() const;
     /// The part of the prefix label after the placeholder
