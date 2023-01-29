@@ -55,9 +55,10 @@ PrefixTickLabels::PrefixTickLabels(const double min, const double max, const uns
     for (int j = 0; j <= nbTicks; j++)
     {
         const double tick = niceMin + j * spacing;
-        const auto tickLabel = QString(QLatin1String("%1%2%3%4"))
-                                   .arg((tick - m_prefixValue) * inv_scale, 0, 'f', labelFraction_10)
-                                   .arg(m_unit.isEmpty() ? QString() : unitSpace(), tick != 0.0 ? siPrefix : QString(), m_unit);
+        const auto tickLabel =
+            QLatin1String("%1%2%3%4")
+                .arg(QString::number((tick - m_prefixValue) * inv_scale, 'f', labelFraction_10),
+                     m_unit.isEmpty() ? QString() : unitSpace(), tick != 0.0 ? siPrefix : QString(), m_unit);
         m_ticksAndLabels.push_back({ tick, tickLabel });
     }
 }
@@ -101,7 +102,7 @@ QString PrefixTickLabels::prefixLabelLeading() const
         return QString::number(static_cast<int>(floor(m_prefixValue))) + QLatin1Char('.');
     }
 
-    return QString(QLatin1String("%1")).arg(m_prefixValue, 0, 'f', -m_prefix_10);
+    return QString::number(m_prefixValue, 'f', -m_prefix_10);
 }
 
 QString PrefixTickLabels::prefixLabelTrailing() const
@@ -173,5 +174,5 @@ QString PrefixTickLabels::siPrefix(int power)
     case -21: return QStringLiteral("z"); // zepto
     case -24: return QStringLiteral("y"); // tocto
     }
-    return QLatin1String("?");
+    return QStringLiteral("?");
 }
