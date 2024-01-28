@@ -23,3 +23,7 @@ could be presented as
  500µ   600µ   700µ   800µ   900µ  1000µ   31.141XXX
 ```
 In our opinion, this not only has the same benefits as the scaling does, but also gives a clearer indication of the range that is shown in the graph.
+
+## References
+
+* [Hotspot](https://github.com/KDAB/hotspot) [1.3.0](https://www.kdab.com/hotspot-version-1-3-0-released) (cf. [pull request](https://github.com/KDAB/hotspot/pull/238))
